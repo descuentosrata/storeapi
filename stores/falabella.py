@@ -7,7 +7,7 @@ media_url = 'https://falabella.scene7.com/is/image/Falabella/{}_1?$producto308$&
 pat = re.compile(r'^(https?://www\.falabella\.com/falabella-cl/product/[0-9]+/[\w.%\-+:]+/[0-9]+/?)')
 
 
-def parser(url):
+def parse(url):
     with get_session() as s:
         req = s.get(url)
 

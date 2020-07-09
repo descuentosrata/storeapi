@@ -15,7 +15,7 @@ def hello_world():
         return message('Hello, rata!')
 
     for store_name, store in store_list.items():
-        if not hasattr(store, 'pat') or not hasattr(store, 'parser'):
+        if not hasattr(store, 'pat') or not hasattr(store, 'parse'):
             continue
         if not store.pat.match(url):
             continue
