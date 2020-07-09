@@ -3,16 +3,11 @@ import json
 import re
 from json import JSONDecodeError
 
-from flask import Blueprint
-
 from common import get_session, find_str, validate_request, message
 
 pat = re.compile(r'^(https?://www\.paris\.cl/.+\.html)')
-view = Blueprint(__name__.split('.')[-1], __name__)
 
 
-@view.route('/paris')
-@validate_request(pat)
 def parse(url):
     with get_session() as s:
         cont = s.get(url).text

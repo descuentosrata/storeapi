@@ -1,15 +1,27 @@
-from flask import Flask
-from stores import falabella, ripley, paris
+import importlib
+from flask import Flask, request
+
+from common import message
+import stores
 
 app = Flask(__name__)
-app.register_blueprint(falabella.view)
-app.register_blueprint(ripley.view)
-app.register_blueprint(paris.view)
+store_list = {m: importlib.import_module('stores.'+m, 'stores') for m in stores.__all__}
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello rata!'
+    url = request.args.get('url', '')
+    if not url:
+        return message('Hello, rata!')
+
+    for store_name, store in store_list.items():
+        if not hasattr(store, 'pat') or not hasattr(store, 'parser'):
+            continue
+        if not store.pat.match(url):
+            continue
+        return store.parse(url)
+
+    return message(code='invalid_url')
 
 
 if __name__ == '__main__':

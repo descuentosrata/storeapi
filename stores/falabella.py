@@ -1,17 +1,12 @@
 import json
 import re
 
-from flask import Blueprint
-
-from common import get_session, find_str, message, validate_request
+from common import get_session, find_str, message
 
 media_url = 'https://falabella.scene7.com/is/image/Falabella/{}_1?$producto308$&wid=1500&hei=1500&qlt=70'
 pat = re.compile(r'^(https?://www\.falabella\.com/falabella-cl/product/[0-9]+/[\w.%\-+:]+/[0-9]+/?)')
-view = Blueprint(__name__.split('.')[-1], __name__)
 
 
-@view.route('/falabella')
-@validate_request(pat)
 def parser(url):
     with get_session() as s:
         req = s.get(url)
