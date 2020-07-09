@@ -19,7 +19,9 @@ def hello_world():
             continue
         if not store.pat.match(url):
             continue
-        return store.parse(url)
+        data = store.parse(url)
+        data['store'] = store_name
+        return data
 
     return message(code='invalid_url')
 
