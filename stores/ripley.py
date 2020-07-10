@@ -26,9 +26,9 @@ def parse(url):
     return dict(
         url=url,
         name=data['name'],
-        price=data['prices']['listPrice'],
-        price_sale=data['prices']['offerPrice'],
-        price_card=data['prices'].get('cardPrice', data['prices']['offerPrice']),
+        price=int(data['prices']['listPrice']),
+        price_sale=int(data['prices']['offerPrice']),
+        price_card=int(data['prices'].get('cardPrice', data['prices']['offerPrice'])),
         image='https:' + data['fullImage'],
         raw=data
     )
