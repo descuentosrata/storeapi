@@ -1,6 +1,6 @@
 import re
 
-from common import get_session, find_str
+from common import get_session, find_str, message
 
 api_url = 'https://simple.ripley.cl/api/v3/products?sortBy=availability&partNumbers='
 pat = re.compile(r'^(https?://simple\.ripley\.cl/[\w\-]+p?)')
@@ -19,6 +19,9 @@ def parse(url):
     part = find_str(req.text, ind, '"')
     with get_session() as s:
         data = s.get(api_url + part).json()[0]
+
+    if 'prices' not in data or 'listPrice' not in data['prices']:
+        return message(code='out_of_stock')
 
     return dict(
         url=url,
