@@ -3,9 +3,10 @@ import json
 import re
 from json import JSONDecodeError
 
-from common import get_session, find_str, validate_request, message
+from common import get_session, find_str, message
 
 pat = re.compile(r'^(https?://www\.paris\.cl/.+\.html)')
+name = 'Paris'
 
 
 def parse(url):

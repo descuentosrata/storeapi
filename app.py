@@ -14,14 +14,21 @@ def hello_world():
     if not url:
         return message('Hello, rata!')
 
-    for store_name, store in store_list.items():
-        if not hasattr(store, 'pat') or not hasattr(store, 'parse'):
+    for mod_name, store in store_list.items():
+        if not all(hasattr(store, i) for i in ['pat', 'parse', 'name']):
             continue
         if not store.pat.match(url):
             continue
-        data = store.parse(url)
-        data['store'] = store_name
-        return data
+
+        item = store.parse(url)
+        if not isinstance(item, dict):
+            return item
+
+        return {
+            'item': item,
+            'store_module': mod_name,
+            'store_name': store.name
+        }
 
     return message(code='invalid_url')
 

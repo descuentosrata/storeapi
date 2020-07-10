@@ -1,10 +1,10 @@
 import re
 
-
 from common import get_session, find_str
 
 api_url = 'https://simple.ripley.cl/api/v3/products?sortBy=availability&partNumbers='
 pat = re.compile(r'^(https?://simple\.ripley\.cl/[\w\-]+p?)')
+name = 'Ripley'
 
 
 def parse(url):
