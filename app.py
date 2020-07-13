@@ -15,7 +15,7 @@ def hello_world():
         return message('Hello, rata!')
 
     for mod_name, store in store_list.items():
-        if not all(hasattr(store, i) for i in ['pat', 'parse', 'name']):
+        if not all(hasattr(store, i) for i in ['pat', 'parse']):
             continue
         if not store.pat.match(url):
             continue
@@ -27,10 +27,10 @@ def hello_world():
         return {
             'item': item,
             'store_module': mod_name,
-            'store_name': store.name
+            'store_name': getattr(store, 'name', mod_name.title())
         }
 
-    return message(code='invalid_url')
+    return message(code='unsupported_url')
 
 
 if __name__ == '__main__':
