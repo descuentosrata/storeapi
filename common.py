@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+from dataclasses import dataclass
 from json import JSONDecodeError
 
 import requests
@@ -18,6 +19,21 @@ codes = {
     'out_of_stock': ('Producto sin stock.', 410),
     'product_not_found': ('Producto no encontrado.', 404)
 }
+
+
+@dataclass
+class StoreItem:
+    url: str = ''
+    name: str = ''
+    image: str = ''
+    price: float = 0
+    price_sale: float = 0
+    price_card: float = 0
+    raw: dict = None
+
+    def asdict(self):
+        return {'url': self.url, 'name': self.name, 'image': self.image, 'price': self.price,
+                'price_sale': self.price_sale, 'price_card': self.price_card, 'raw': self.raw}
 
 
 def find_str(cont, ini, end):
