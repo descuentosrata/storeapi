@@ -30,15 +30,24 @@ def generic_parser(url):
     if isch:
         return isch_parser(isch)
 
+    title = image = ''
     ogtitle = dom.select_one('meta[property="og:title"]')
+    ogimage = dom.select_one('meta[property="og:image"]')
     if ogtitle:
-        return og_parser(url, dom)
+        title = ogtitle.attrs.get('content', '')
+    else:
+        domtitle = dom.select_one('title')
+        if domtitle:
+            title = domtitle.text.strip()
 
-    if '<title>' in data:
-        title = dom.select_one('title')
-        return StoreItem(name=title.text.strip()).asdict()
+    if ogimage:
+        image = ogimage.attrs.get('content', '')
 
-    return None
+    return StoreItem(
+        url=url,
+        name=title,
+        image=image
+    )
 
 
 def vtex_parser(content, url):
