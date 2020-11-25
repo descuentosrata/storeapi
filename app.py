@@ -1,5 +1,5 @@
 import importlib
-from flask import Flask, request
+from flask import Flask, request, Response
 
 from common import message, StoreItem
 import stores
@@ -37,6 +37,8 @@ def hello_world():
     if generic_result is None:
         return message(code='unsupported_url')
     else:
+        if isinstance(generic_result, Response):
+            return generic_result
         if isinstance(generic_result, StoreItem):
             generic_result = generic_result.asdict()
 

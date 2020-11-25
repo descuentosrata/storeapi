@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 
 from bs4 import BeautifulSoup
+from requests.exceptions import MissingSchema
 
 from common import itemschema_ldjson, get_session, StoreItem, itemschema, find_str, message
 
@@ -11,7 +12,12 @@ rr_str = 'retailrocket.products.post('
 
 def generic_parser(url):
     with get_session() as s:
-        data = s.get(url).text
+        try:
+            req = s.get(url)
+        except MissingSchema:
+            return message(code='invalid_url')
+
+        data = req.text
         dom = BeautifulSoup(data, features='html.parser')
 
     if vtex_str in data:
